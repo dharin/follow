@@ -1,0 +1,3274 @@
+  [1m[36m (320.2ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (322.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateUsers (20130711191400)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.9ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20130711191400"]]
+  [1m[36m (448.6ms)[0m  [1mcommit transaction[0m
+Migrating to AddIndexToUsersEmail (20130711194153)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20130711194153"]]
+  [1m[36m (553.6ms)[0m  [1mcommit transaction[0m
+Migrating to AddPasswordDigestToUsers (20130711201841)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.7ms)[0m  [1mALTER TABLE "users" ADD "password_digest" varchar(255)[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20130711201841"]]
+  [1m[36m (362.7ms)[0m  [1mcommit transaction[0m
+Migrating to AddRememberTokenToUsers (20130714184954)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "users" ADD "remember_token" varchar(255)[0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "index_users_on_remember_token" ON "users" ("remember_token")
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20130714184954"]]
+  [1m[35m (364.0ms)[0m  commit transaction
+Migrating to AddAdminToUsers (20130715015932)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  ALTER TABLE "users" ADD "admin" boolean
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20130715015932"]]
+  [1m[35m (344.1ms)[0m  commit transaction
+Migrating to CreateMicroposts (20130715175534)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "microposts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "content" varchar(255), "user_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.3ms)[0m  [1mCREATE INDEX "index_microposts_on_user_id_and_created_at" ON "microposts" ("user_id", "created_at")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20130715175534"]]
+  [1m[36m (506.7ms)[0m  [1mcommit transaction[0m
+Migrating to CreateRelationships (20130727230445)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mCREATE TABLE "relationships" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "Follower_id" integer, "Followed_id" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "index_relationships_on_Follower_id" ON "relationships" ("Follower_id")
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "index_relationships_on_Followed_id" ON "relationships" ("Followed_id")[0m
+  [1m[35m (0.3ms)[0m  CREATE UNIQUE INDEX "index_relationships_on_Follower_id_and_Followed_id" ON "relationships" ("Follower_id", "Followed_id")
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20130727230445"]]
+  [1m[35m (485.5ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36m (344.9ms)[0m  [1mCREATE TABLE "microposts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "content" varchar(255), "user_id" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (366.5ms)[0m  CREATE INDEX "index_microposts_on_user_id_and_created_at" ON "microposts" ("user_id", "created_at")
+  [1m[36m (333.1ms)[0m  [1mCREATE TABLE "relationships" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "Follower_id" integer, "Followed_id" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (344.9ms)[0m  CREATE INDEX "index_relationships_on_Followed_id" ON "relationships" ("Followed_id")
+  [1m[36m (366.5ms)[0m  [1mCREATE UNIQUE INDEX "index_relationships_on_Follower_id_and_Followed_id" ON "relationships" ("Follower_id", "Followed_id")[0m
+  [1m[35m (344.3ms)[0m  CREATE INDEX "index_relationships_on_Follower_id" ON "relationships" ("Follower_id")
+  [1m[36m (344.1ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "created_at" datetime, "updated_at" datetime, "password_digest" varchar(255), "remember_token" varchar(255), "admin" boolean) [0m
+  [1m[35m (344.5ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (377.9ms)[0m  [1mCREATE INDEX "index_users_on_remember_token" ON "users" ("remember_token")[0m
+  [1m[35m (881.1ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (1540.4ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.3ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (332.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130727230445')[0m
+  [1m[35m (367.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130715175534')
+  [1m[36m (400.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130715015932')[0m
+  [1m[35m (345.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130714184954')
+  [1m[36m (334.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130711201841')[0m
+  [1m[35m (311.9ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20130711194153')
+  [1m[36m (367.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20130711191400')[0m
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:14:46 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (3.5ms)
+Warning. Error encountered while saving cache 7b52fb4d784138d39692d515b5d24016d55e134c/custom.css.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache 440a6306aef348690aa564d186e2fcd94f21ac34/bootstrap.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/bootstrap.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_variables.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_mixins.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_reset.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_scaffolding.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_grid.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_layouts.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_type.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_code.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_forms.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_tables.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_sprites.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_dropdowns.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_wells.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_component-animations.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_close.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_buttons.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_button-groups.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_alerts.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_navs.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_navbar.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_breadcrumbs.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_pagination.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_pager.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_modals.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_tooltip.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_popovers.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_thumbnails.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_media.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_labels-badges.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_progress-bars.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_accordion.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_carousel.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_hero-unit.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache b544f902f8bb5c8ccb4503fc1a97a485d24f5625/_utilities.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache 7b52fb4d784138d39692d515b5d24016d55e134c/sessions.css.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache 7b52fb4d784138d39692d515b5d24016d55e134c/static_pages.css.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+Warning. Error encountered while saving cache 7b52fb4d784138d39692d515b5d24016d55e134c/users.css.scssc: can't dump anonymous class #<Class:0x933c47c>
+
+  Rendered layouts/_shim.html.erb (0.5ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (2.2ms)
+  Rendered layouts/_footer.html.erb (0.6ms)
+Completed 200 OK in 4302ms (Views: 4273.8ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:51 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:52 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:52 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:52 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:52 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-16 20:14:52 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-16 20:14:52 +0530
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-16 20:15:01 +0530
+Processing by StaticPagesController#help as HTML
+Completed 500 Internal Server Error in 4ms
+
+ActionView::MissingTemplate (Missing template static_pages/help, application/help with {:locale=>[:en], :formats=>[:html, :xml], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in:
+  * "/home/dharin/Downloads/Follow/app/views"
+):
+  actionpack (4.0.4) lib/action_view/path_set.rb:46:in `find'
+  actionpack (4.0.4) lib/action_view/lookup_context.rb:122:in `find'
+  actionpack (4.0.4) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:35:in `determine_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:127:in `_render_template'
+  actionpack (4.0.4) lib/action_controller/metal/streaming.rb:219:in `_render_template'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:120:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:33:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/renderers.rb:26:in `render_to_body'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:97:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/benchmark.rb:296:in `realtime'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:403:in `_run__567194386__process_action__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.0.4) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:136:in `process'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.4) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:674:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.4) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.4) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.4) lib/active_record/migration.rb:373:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:373:in `_run__26207405__call__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.7ms)
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-16 20:15:02 +0530
+Processing by StaticPagesController#help as HTML
+Completed 500 Internal Server Error in 3ms
+
+ActionView::MissingTemplate (Missing template static_pages/help, application/help with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in:
+  * "/home/dharin/Downloads/Follow/app/views"
+):
+  actionpack (4.0.4) lib/action_view/path_set.rb:46:in `find'
+  actionpack (4.0.4) lib/action_view/lookup_context.rb:122:in `find'
+  actionpack (4.0.4) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:35:in `determine_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:127:in `_render_template'
+  actionpack (4.0.4) lib/action_controller/metal/streaming.rb:219:in `_render_template'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:120:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:33:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/renderers.rb:26:in `render_to_body'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:97:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/benchmark.rb:296:in `realtime'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:403:in `_run__567194386__process_action__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.0.4) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:136:in `process'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.4) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:674:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.4) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.4) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.4) lib/active_record/migration.rb:373:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:373:in `_run__26207405__call__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.7ms)
+
+
+Started GET "/assets/FabTab_heart.png" for 127.0.0.1 at 2014-04-16 20:15:02 +0530
+
+ActionController::RoutingError (No route matches [GET] "/assets/FabTab_heart.png"):
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_route.html.erb (3.5ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_table.html.erb (7.1ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (41.8ms)
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-16 20:15:12 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (0.7ms)
+  Rendered layouts/_shim.html.erb (0.5ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (2.6ms)
+  Rendered layouts/_footer.html.erb (0.7ms)
+Completed 200 OK in 23ms (Views: 21.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/signin" for 127.0.0.1 at 2014-04-16 20:15:20 +0530
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (236.3ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 255ms (Views: 253.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/signup" for 127.0.0.1 at 2014-04-16 20:15:23 +0530
+Processing by UsersController#new as HTML
+  Rendered shared/_error_messages.html.erb (4.1ms)
+  Rendered users/new.html.erb within layouts/application (20.9ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 44ms (Views: 41.1ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (1.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (2.3ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 24ms (Views: 21.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:55 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:56 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:56 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:56 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:56 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:56 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:56 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:56 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-16 20:20:56 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (1.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 23ms (Views: 20.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-16 20:27:13 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:27:20 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (2.4ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (2.3ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 23ms (Views: 21.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (1.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.0ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 22ms (Views: 18.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-16 20:31:21 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (1.5ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.1ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 22ms (Views: 20.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-16 20:31:25 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-16 20:31:26 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:40:15 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (1.3ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.0ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 21ms (Views: 18.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (2.7ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.1ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 23ms (Views: 20.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-16 20:48:21 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 20:48:23 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (2.5ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.0ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 21ms (Views: 19.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-16 20:48:26 +0530
+Processing by StaticPagesController#help as HTML
+  Rendered static_pages/help.html.erb within layouts/application (0.7ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 19ms (Views: 18.0ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/signin" for 127.0.0.1 at 2014-04-16 20:48:30 +0530
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (1.7ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.3ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 19ms (Views: 18.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/signup" for 127.0.0.1 at 2014-04-16 21:29:26 +0530
+Processing by UsersController#new as HTML
+  Rendered shared/_error_messages.html.erb (0.1ms)
+  Rendered users/new.html.erb within layouts/application (6.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 137ms (Views: 136.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 21:29:34 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (0.9ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.1ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 21ms (Views: 19.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-16 21:29:36 +0530
+Processing by StaticPagesController#help as HTML
+  Rendered static_pages/help.html.erb within layouts/application (0.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.3ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 17ms (Views: 15.9ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/signin" for 127.0.0.1 at 2014-04-16 21:29:38 +0530
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (2.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.6ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 19ms (Views: 18.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-16 21:29:41 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (1.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.1ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 20ms (Views: 18.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:09:57 +0530
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (6.1ms)
+  Rendered layouts/_shim.html.erb (0.9ms)
+  [1m[35mCACHE (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (4.2ms)
+  Rendered layouts/_footer.html.erb (1.4ms)
+Completed 200 OK in 509ms (Views: 407.1ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-21 19:09:59 +0530
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+Processing by StaticPagesController#help as HTML
+  Rendered static_pages/help.html.erb within layouts/application (0.7ms)
+  Rendered layouts/_shim.html.erb (0.9ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (3.6ms)
+  Rendered layouts/_footer.html.erb (1.0ms)
+Completed 200 OK in 28ms (Views: 27.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+Processing by StaticPagesController#help as HTML
+  Rendered static_pages/help.html.erb within layouts/application (0.5ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 18ms (Views: 17.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:14 +0530
+
+
+Started GET "/signin" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (410.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.6ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 429ms (Views: 428.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/signin" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (2.6ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 74ms (Views: 73.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:17 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:18 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:18 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:18 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (2.4ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.3ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 25ms (Views: 22.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (1.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.6ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 24ms (Views: 23.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-21 19:10:19 +0530
+
+
+Started GET "/signup" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+Processing by UsersController#new as HTML
+  Rendered shared/_error_messages.html.erb (37.0ms)
+  Rendered users/new.html.erb within layouts/application (58.5ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 84ms (Views: 80.9ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/signup" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+Processing by UsersController#new as HTML
+  Rendered shared/_error_messages.html.erb (0.8ms)
+  Rendered users/new.html.erb within layouts/application (8.6ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 28ms (Views: 26.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:22 +0530
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (0.9ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (2.0ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 83ms (Views: 81.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (0.8ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (2.7ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 23ms (Views: 21.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:26 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:10:27 +0530
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:11:41 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (0.8ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (2.0ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 27ms (Views: 25.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:11:42 +0530
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:16:28 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (0.9ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 21ms (Views: 20.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:28 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:28 +0530
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:28 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:28 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:28 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:28 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:28 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:29 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:16:47 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (2.5ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.3ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 83ms (Views: 81.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:16:47 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (2.3ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.1ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 22ms (Views: 20.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:47 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-21 19:16:48 +0530
+
+
+Started GET "/in.linkedin.com/in/dharinrajgor/" for 127.0.0.1 at 2014-04-21 19:16:54 +0530
+
+ActionController::RoutingError (No route matches [GET] "/in.linkedin.com/in/dharinrajgor"):
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.3ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_route.html.erb (3.0ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_table.html.erb (8.0ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (45.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:17:21 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (1.2ms)
+Completed 500 Internal Server Error in 6ms
+
+SyntaxError (/home/dharin/Downloads/follow/app/views/static_pages/home.html.erb:31: syntax error, unexpected ':'
+...g("rails.png", alt: "Rails"), : url => "in.linkedin.com/in/d...
+...                               ^):
+  actionpack (4.0.4) lib/action_view/template.rb:299:in `module_eval'
+  actionpack (4.0.4) lib/action_view/template.rb:299:in `compile'
+  actionpack (4.0.4) lib/action_view/template.rb:248:in `block in compile!'
+  actionpack (4.0.4) lib/action_view/template.rb:236:in `synchronize'
+  actionpack (4.0.4) lib/action_view/template.rb:236:in `compile!'
+  actionpack (4.0.4) lib/action_view/template.rb:142:in `block in render'
+  activesupport (4.0.4) lib/active_support/notifications.rb:161:in `instrument'
+  actionpack (4.0.4) lib/action_view/template.rb:141:in `render'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:49:in `block (2 levels) in render_template'
+  actionpack (4.0.4) lib/action_view/renderer/abstract_renderer.rb:38:in `block in instrument'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.0.4) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.0.4) lib/action_view/renderer/abstract_renderer.rb:38:in `instrument'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:48:in `block in render_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:56:in `render_with_layout'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:47:in `render_template'
+  actionpack (4.0.4) lib/action_view/renderer/template_renderer.rb:17:in `render'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionpack (4.0.4) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:127:in `_render_template'
+  actionpack (4.0.4) lib/action_controller/metal/streaming.rb:219:in `_render_template'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:120:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:33:in `render_to_body'
+  actionpack (4.0.4) lib/action_controller/metal/renderers.rb:26:in `render_to_body'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:97:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/benchmark.rb:296:in `realtime'
+  activesupport (4.0.4) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.0.4) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:403:in `_run__250283527__process_action__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.0.4) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.0.4) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.0.4) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.0.4) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.0.4) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.0.4) lib/abstract_controller/base.rb:136:in `process'
+  actionpack (4.0.4) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.4) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.4) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.4) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.4) lib/action_dispatch/routing/route_set.rb:674:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.4) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.4) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.4) lib/active_record/migration.rb:373:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:373:in `_run__847002191__call__callbacks'
+  activesupport (4.0.4) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.4) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:138:in `service'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/httpserver.rb:94:in `run'
+  /home/dharin/.rvm/rubies/ruby-2.0.0-p353/lib/ruby/2.0.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (0.8ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.4ms)
+  Rendered /home/dharin/.rvm/gems/ruby-2.0.0-p353/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (21.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.1ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (3.4ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 78ms (Views: 74.2ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-21 19:17:53 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (3.5ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 27ms (Views: 24.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-21 19:18:49 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:20:48 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (2.4ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.2ms)
+  Rendered layouts/_footer.html.erb (0.3ms)
+Completed 200 OK in 26ms (Views: 23.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (1.2ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.2ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 28ms (Views: 25.4ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:49 +0530
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (1.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (2.0ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 84ms (Views: 82.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (0.7ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (2.2ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 20ms (Views: 18.8ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:20:52 +0530
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (1.0ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 22ms (Views: 20.5ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:26:55 +0530
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (1.9ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 24ms (Views: 22.4ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:18 +0530
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:28:45 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (0.8ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.9ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 23ms (Views: 22.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/about" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+Processing by StaticPagesController#about as HTML
+  Rendered static_pages/about.html.erb within layouts/application (0.3ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.7ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 73ms (Views: 72.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:46 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:28:47 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (1.9ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.2ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 23ms (Views: 21.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:28:47 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (1.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.3ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 21ms (Views: 19.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-21 19:28:48 +0530
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:28:57 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered static_pages/home.html.erb within layouts/application (1.3ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.2ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 24ms (Views: 22.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2014-04-21 19:28:57 +0530
+Processing by StaticPagesController#home as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered static_pages/home.html.erb within layouts/application (1.3ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (0.9ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 23ms (Views: 21.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-21 19:28:58 +0530
+Processing by StaticPagesController#help as HTML
+  Rendered static_pages/help.html.erb within layouts/application (0.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.5ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 83ms (Views: 82.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+Processing by StaticPagesController#help as HTML
+  Rendered static_pages/help.html.erb within layouts/application (0.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 18ms (Views: 17.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:28:59 +0530
+
+
+Started GET "/signin" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (3.0ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.9ms)
+  Rendered layouts/_footer.html.erb (0.1ms)
+Completed 200 OK in 23ms (Views: 22.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/signin" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (2.5ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (1.4ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 22ms (Views: 21.7ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:02 +0530
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+Processing by StaticPagesController#help as HTML
+  Rendered static_pages/help.html.erb within layouts/application (0.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1
+  Rendered layouts/_header.html.erb (1.8ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 20ms (Views: 19.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/help" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+Processing by StaticPagesController#help as HTML
+  Rendered static_pages/help.html.erb within layouts/application (0.1ms)
+  Rendered layouts/_shim.html.erb (0.1ms)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."remember_token" = 'da39a3ee5e6b4b0d3255bfef95601890afd80709' LIMIT 1[0m
+  Rendered layouts/_header.html.erb (2.2ms)
+  Rendered layouts/_footer.html.erb (0.2ms)
+Completed 200 OK in 26ms (Views: 25.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/custom.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/static_pages.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-transition.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-affix.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-alert.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-button.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-carousel.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-collapse.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-modal.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-dropdown.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-scrollspy.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-tab.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-tooltip.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-popover.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap-typeahead.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/static_pages.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-21 19:29:03 +0530
